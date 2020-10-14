@@ -2,11 +2,12 @@
 
 ## Description
 
+This Team Profile Generator is a command-line application that dynamically generates a team profile from a user's input using the Inquirer package. The user is prompted for information about their team, and a webpage displaying the user's team's basic information is created for quick access to employee information.
   
 ## Table of Contents
 * [Description](#description)
 * [Installation](#installation)
-* [Usage](#usage)
+* [Test](#test)
 * [Built With](#built_with)
 * [Contributors](#contributors)
 * [Author](#author)
@@ -16,11 +17,11 @@
 
 ## Installation
 
-You will need to use the NPM Install commmand to run this application.
+To Install this application run NPM install. 
 
-## Usage
+## Test
 
-To run this application, download the repo and open the folder. Once in the folder open Index.js in your integrated terminal and type "node index.js" once here you will fill in the required information and recieve back a generated README.md file 
+To run tests on this application, open your terminal to the directory in which this application is installed, and type "npm run test".
 
 ## Built_with
 
@@ -40,11 +41,11 @@ Andrew Kosel
 
 ## Video
 
-[![Watch the video](https://user-images.githubusercontent.com/70727213/95645101-c739c900-0a70-11eb-91a7-83db8ec6797b.png)](https://www.youtube.com/watch?v=FpMBdWEs0Hw&feature=youtu.be)
+[![Watch the video](https://user-images.githubusercontent.com/70727213/95952437-eefc9a00-0dac-11eb-842d-5245673dc3ad.png)](https://www.youtube.com/watch?v=FpMBdWEs0Hw&feature=youtu.be)
 
 ## License
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+[![License: MIT](https://img.shields.io/badge/License-MIT-pink.svg)](https://opensource.org/licenses/MIT)
 
 MIT License
 
