@@ -4,11 +4,12 @@ const Intern = require("./lib/Intern");
 const inquirer = require("inquirer");
 const path = require("path");
 const fs = require("fs");
-
+const util = require("util");
+const writeFileAsync = util.promisify(fs.writeFile);
 const OUTPUT_DIR = path.resolve(__dirname, "output");
 const outputPath = path.join(OUTPUT_DIR, "team.html");
-
 const render = require("./lib/htmlRenderer");
+const team = [];
 
 
 // Write code to use inquirer to gather information about the development team members,
@@ -33,43 +34,75 @@ function employeeInfo() {
                 type: 'list',
                 name: 'role',
                 message: "Employee's role",
-                choices: ["Manager", "Employee", "Engineer", "Intern"]
+                choices: ["Manager", "Engineer", "Intern"]
             }
         ])
         .then(answers => {
-            console.log(answers);
+            // console.log(answers);
 
             if (answers.role === 'Engineer') {
-                const getEngineer = new Engineer(answers.name, answers.email, answers.id, answers.role)
-                console.log(getEngineer.getName())
-                 console.log(getEngineer.getEmail())
-                team.push(getEngineer);
-            }else{console.log('Select new one!')}
+                inquirer.prompt([{
+                    type: 'input',
+                    name: 'gitHub',
+                    message: "Enter Your Employees GitHub Username"
+                }])
+                .then(ans => {
+                    // console.log(ans.gitHub)
+                    const someEngineer = new Engineer(answers.name, answers.email, answers.id, answers.role, ans.gitHub )
+                    team.push(someEngineer);
+                    console.log(team);
+                    addMore();
+                })
+            }else if(answers.role === 'Manager') {
+                    inquirer.prompt([{
+                        type: 'input',
+                        name: 'office',
+                        message: "Enter Office Number"
+                    }])
+                    .then(ans => {
+                        // console.log(ans.office)
 
-            // const getEngineer = new Engineer(answers.name, answers.email, answers.id, answers.role)
-            // console.log(getEngineer.getName())
-            // console.log(getEngineer.getType())
-            // team.push(getEngineer);
-            // inquirer.prompt([{
-            //         type: 'list',
-            //         name: 'choice',
-            //         message: "Want to add more?",
-            //         choices: ["Manager", "Engineer", "Intern", "Done"]
+                        const someManager = new Manager(answers.name, answers.email, answers.id, answers.role, ans.office )
+                        team.push(someManager);
+                        console.log(team)
+                        addMore();
+                    })
+                }else if(answers.role === 'Intern') {
+                        inquirer.prompt([{
+                            type: 'input',
+                            name: 'school',
+                            message: "Enter Interns School"
+                        }])
+                        .then(ans => {
+                            // console.log(ans.school)
 
-            //     }])
-                // .then(choice => {
-                //     if (choice.choice === 'Engineer') {
-                //         employeeInfo();
-                //     } else if (choice.choice === 'Intern') {
-                //         employeeInfo();
-                //     } else {
-                //         console.log(team);
-                //     }
-                // })
+                            const someIntern = new Intern(answers.name, answers.email, answers.id, answers.role, answers.school )
+                            team.push(someIntern);
+                            console.log(team)
+                            addMore();
+                        })
+            }
+            
+
         })
 }
 
-employeeInfo(); 
+function addMore() {
+                inquirer.prompt([{
+                    type: 'confirm',
+                    name: 'addNew',
+                    message: 'Would you Like to add another team member?'
+                }])
+                .then(res =>{
+                    if (res.addNew === true){
+                        employeeInfo();
+                    }else{
+                        writeFileAsync(outputPath, render(team));
+                    }
+                })
+
+            }
+employeeInfo();
 // After the user has input all employees desired, call the `render` function (required
 // above) and pass in an array containing all employee objects; the `render` function will
 // generate and return a block of HTML including templated divs for each employee!
